@@ -813,7 +813,7 @@ export default function MusicPlayer() {
                 marginBottom: "0.4rem",
               }}
             >
-              Tap to play music
+              A little something for you, mi princesa ❤️
             </div>
             <div
               style={{
@@ -823,7 +823,7 @@ export default function MusicPlayer() {
                 letterSpacing: "0.12em",
               }}
             >
-              ♥ {_opener.title} — {_opener.artist}
+              ♥ Tap anywhere to begin your surprise ♡
             </div>
           </div>
         </div>

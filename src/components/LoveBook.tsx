@@ -1,70 +1,70 @@
+
 import { useState, useRef, useEffect } from "react";
 import { animate } from "animejs";
 
 const PAGES = [
   {
-    title: "A Letter to You",
+    title: "A Little Letter to You",
     emoji: "💌",
     content: [
-      "If love had a beginning for me, it would look exactly like you.",
-      "From being two kids in the same school, sharing small moments without realising their weight, to meeting again years later when life somehow brought us back  it feels like destiny had been quietly writing our story all along.",
-      "You came back into my life when I least expected it, and suddenly ordinary days started feeling like something worth remembering.",
-      "This book is not just pages filled with words. It's a small piece of my heart, written for the girl who made love feel real.",
+      "Hi, my beautiful princess. ❤️",
+      "I know I tell you how much I love you all the time, but sometimes I wish you could see yourself through my eyes. Maybe then you'd understand just how special you are to me.",
+      "I made you this little book because I wanted to give you something you could come back to whenever you miss me, or whenever you need a reminder of how loved you are.",
+      "I love you so much, mi amor. More than you know.",
     ],
   },
   {
-    title: "The Beginning",
-    emoji: "🌱",
-    content: [
-      "The first time I met you in Grade XX, I never imagined you would become this important to me. Back then, we were just school friends  same bus rides, small conversations.",
-      "When you changed schools in Class XX, life moved on. But fate had different plans.",
-      "Meeting you again in XXth grade felt unreal  like a story getting a second chance. Talking to you on Instagram slowly became the best part of my day.",
-      "The day I confessed my feelings was one of the most nervous moments of my life. When you said yes  it honestly felt like the world stopped for a second. In the best way possible.",
-    ],
-  },
-  {
-    title: "My Favourite Memories",
-    emoji: "🎞️",
-    content: [
-      "It's impossible to choose just one memory with you, because every moment somehow becomes special when you're in it.",
-      "From holding your hand for the first time, to sitting together on the school bus. From laughing at the most random things, to sharing my first kiss with you.",
-      "What I love most is how comfortable everything feels with you. Even the simplest moments become beautiful, simply because they're ours.",
-      "Sometimes I replay them in my head for no reason at all. Just because they make me smile.",
-    ],
-  },
-  {
-    title: "What I Love About You",
+    title: "The Day I Met You",
     emoji: "🌹",
     content: [
-      "There are so many things I love about you that words honestly don't feel enough.",
-      "I love how confident you are, and the graceful way you carry yourself. I love your smile, your eyes, your voice  and the way your presence alone can turn my worst days lighter.",
-      "But more than anything, I love your heart.",
-      "The way you care for people  so purely, so genuinely  makes you feel less like a girlfriend and more like home. I feel incredibly lucky to be someone you chose to share it with.",
+      "October 16th. ❤️",
+      "I don't think you realize how much that day means to me. It's crazy to think that one date could turn into something that means this much to me.",
+      "I didn't know exactly what to expect when we first met, but I know I left wanting to see you again.",
     ],
   },
   {
-    title: "My Promises to You",
-    emoji: "🕊️",
+    title: "Since Our Hands Let Go",
+    emoji: "🥹",
     content: [
-      "I promise to stand beside you, no matter what life brings our way.",
-      "I promise to support your dreams, respect your feelings, and always make you feel valued and loved. Not just on the good days, but especially on the hard ones.",
-      "I want us to build something that feels peaceful, safe, and real.",
-      "You deserve that kind of love. And I intend to give it to you  every single day.",
+      "My pretty girl, I miss you.",
+      "I've missed you since the moment our hands let go of each other last Saturday. I wish I could've held onto you just a little longer.",
+      "Sometimes I wish I could skip all the time we spend apart and go straight to the moment I get to see you again.",
+      "I can't wait to hold you in my arms, kiss you, and just be close to you again, mi amor.",
     ],
   },
   {
-    title: "Our Forever",
+    title: "My Peace and Happiness",
+    emoji: "🤍",
+    content: [
+      "You make me so happy, princess.",
+      "There's something about you that brings me so much peace. Even on the days when everything else feels stressful, just talking to you can make my whole day better.",
+      "I love your affection, the way you make me feel wanted, and how comfortable I feel being myself with you.",
+      "I hope I make you feel even half as happy as you make me, because you deserve to be the happiest girl in the world. And I want to be the one who makes you feel that way.",
+    ],
+  },
+  {
+    title: "I Love You More",
+    emoji: "💕",
+    content: [
+      "Okay, pretty girl, we need to settle something.",
+      "I love you more. And before you start arguing with me, just know that I've already decided I'm right. 😌",
+      "You can tell me you love me more a thousand times, and I'll still tell you the same thing.",
+      "But seriously, mi amor, I hope you never have to question how much I love you. I want you to feel it in the way I treat you, the way I care for you, and all the little things I do just to make you smile.",
+    ],
+  },
+  {
+    title: "Our Invisible String",
     emoji: "✨",
     content: [
-      "When I think about my future, the picture always somehow has you in it.",
-      "I imagine us growing together  supporting each other through every phase, every storm, every beautiful ordinary Tuesday.",
-      "I want us to be not just lovers, but best friends. The kind that still make each other laugh after years, who still choose each other on the hard days.",
-      "And one day, I want to marry the same girl who once sat with me on a school bus  and unknowingly became my favourite person in the world. You, always. 🌹",
+      "Remember when you told me about the invisible string theory?",
+      "I keep thinking about that. The idea that two people can be connected long before they even know each other. That somehow, through everything life puts them through, they still end up finding one another.",
+      "I don't know how the universe works, princess. But I know that out of all the people in the world, somehow I found you.",
+      "And I genuinely believe we were made for one another. You're my soulmate, mi amor. If there's really an invisible string connecting us, I hope it never breaks.",
+      "I love you, my beautiful princess. Always. ❤️",
     ],
   },
 ];
 
-// Fixed book dimensions
 const BOOK_W = 320;
 const BOOK_H = 420;
 
@@ -78,11 +78,15 @@ export default function LoveBook() {
   const candleGlowRef = useRef<HTMLDivElement>(null);
   const coverRef = useRef<HTMLDivElement>(null);
   const flipPageRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  // Candle flicker
   useEffect(() => {
-    if (!candleFlameRef.current || !candleGlowRef.current) return;
-    animate(candleFlameRef.current, {
+    const flame = candleFlameRef.current;
+    const glow = candleGlowRef.current;
+
+    if (!flame || !glow) return;
+
+    const flameAnim = animate(flame, {
       scaleX: [1, 0.88, 1.1, 0.92, 1],
       scaleY: [1, 1.06, 0.96, 1.04, 1],
       translateX: [0, -1, 1, -1, 0],
@@ -91,7 +95,8 @@ export default function LoveBook() {
       loop: true,
       alternate: true,
     });
-    animate(candleGlowRef.current, {
+
+    const glowAnim = animate(glow, {
       opacity: [0.5, 0.85, 0.6, 0.95, 0.55],
       scale: [1, 1.1, 0.95, 1.08, 1],
       duration: 1600,
@@ -99,15 +104,18 @@ export default function LoveBook() {
       loop: true,
       alternate: true,
     });
+
+    return () => {
+      flameAnim.pause();
+      glowAnim.pause();
+    };
   }, []);
 
   const openBook = () => {
-    if (isOpening || isOpen) return;
+    if (isOpening || isOpen || !coverRef.current) return;
+
     setIsOpening(true);
 
-    if (!coverRef.current) return;
-
-    // Cover flips open from right to left (like opening a book)
     animate(coverRef.current, {
       rotateY: [0, -160],
       duration: 900,
@@ -127,14 +135,19 @@ export default function LoveBook() {
 
     setIsFlipping(true);
 
-    // Slide + fade out
     animate(flipPageRef.current, {
       opacity: [1, 0],
       translateX: direction === "next" ? [0, -40] : [0, 40],
       duration: 250,
       ease: "inCubic",
       onComplete: () => {
-        setCurrentPage((p) => (direction === "next" ? p + 1 : p - 1));
+        setCurrentPage((page) =>
+          direction === "next" ? page + 1 : page - 1
+        );
+
+        if (contentRef.current) {
+          contentRef.current.scrollTop = 0;
+        }
 
         if (flipPageRef.current) {
           animate(flipPageRef.current, {
@@ -146,6 +159,8 @@ export default function LoveBook() {
               setIsFlipping(false);
             },
           });
+        } else {
+          setIsFlipping(false);
         }
       },
     });
@@ -164,7 +179,7 @@ export default function LoveBook() {
         gap: "1.5rem",
       }}
     >
-      {/* Candle */}
+      {/* Animated candle */}
       <div
         style={{
           display: "flex",
@@ -197,6 +212,7 @@ export default function LoveBook() {
               borderRadius: "50%",
             }}
           />
+
           <svg width="26" height="42" viewBox="0 0 26 42" fill="none">
             <path
               d="M13 42C5.8 42 1 35.5 1 28C1 19.5 8 13.5 10 8C11 5 12 2 13 0C14 2 15 5 16 8C18 13.5 25 19.5 25 28C25 35.5 20.2 42 13 42Z"
@@ -221,8 +237,16 @@ export default function LoveBook() {
               </linearGradient>
             </defs>
           </svg>
-          <div style={{ width: "1px", height: "8px", background: "#555" }} />
+
+          <div
+            style={{
+              width: "1px",
+              height: "8px",
+              background: "#555",
+            }}
+          />
         </div>
+
         <div
           style={{
             width: "26px",
@@ -233,6 +257,7 @@ export default function LoveBook() {
             borderRadius: "2px",
           }}
         />
+
         <div
           style={{
             width: "34px",
@@ -241,6 +266,7 @@ export default function LoveBook() {
             borderRadius: "2px",
           }}
         />
+
         <div
           style={{
             width: "50px",
@@ -254,7 +280,7 @@ export default function LoveBook() {
         />
       </div>
 
-      {/* Label */}
+      {/* Section label */}
       <p
         style={{
           fontFamily: "'Cormorant Garamond',serif",
@@ -265,10 +291,10 @@ export default function LoveBook() {
           textAlign: "center",
         }}
       >
-        Our Journey
+        Our Little Story
       </p>
 
-      {/*   BOOK   */}
+      {/* Book */}
       <div
         style={{
           position: "relative",
@@ -277,7 +303,6 @@ export default function LoveBook() {
           alignItems: "center",
         }}
       >
-        {/* Hint */}
         {!isOpen && !isOpening && (
           <div
             style={{
@@ -296,11 +321,10 @@ export default function LoveBook() {
               zIndex: 10,
             }}
           >
-            ✨ Click the book to open
+            ✨ Tap the book to open
           </div>
         )}
 
-        {/* Book 3D container */}
         <div
           style={{
             width: `${BOOK_W}px`,
@@ -309,7 +333,7 @@ export default function LoveBook() {
             perspective: "1400px",
           }}
         >
-          {/*   BACK / PAGES STACK (always visible)   */}
+          {/* Pages underneath the cover */}
           <div
             style={{
               position: "absolute",
@@ -320,7 +344,7 @@ export default function LoveBook() {
               overflow: "hidden",
             }}
           >
-            {/* Ruled lines */}
+            {/* Ruled paper texture */}
             <div
               style={{
                 position: "absolute",
@@ -329,9 +353,11 @@ export default function LoveBook() {
                 backgroundImage:
                   "repeating-linear-gradient(transparent,transparent 31px,#c8973a 31px,#c8973a 32px)",
                 backgroundPosition: "0 56px",
+                pointerEvents: "none",
               }}
             />
-            {/* Red margin */}
+
+            {/* Left margin */}
             <div
               style={{
                 position: "absolute",
@@ -340,10 +366,10 @@ export default function LoveBook() {
                 left: "52px",
                 width: "1px",
                 background: "rgba(220,100,100,0.3)",
+                pointerEvents: "none",
               }}
             />
 
-            {/* Page content  only shown when open */}
             {isOpen && (
               <div
                 ref={flipPageRef}
@@ -355,7 +381,7 @@ export default function LoveBook() {
                   padding: "1.25rem 1.25rem 1rem 3.75rem",
                 }}
               >
-                {/* Top row */}
+                {/* Page number and emoji */}
                 <div
                   style={{
                     display: "flex",
@@ -375,10 +401,13 @@ export default function LoveBook() {
                   >
                     {currentPage + 1} / {PAGES.length}
                   </span>
-                  <span style={{ fontSize: "1.4rem" }}>{page.emoji}</span>
+
+                  <span style={{ fontSize: "1.4rem" }}>
+                    {page.emoji}
+                  </span>
                 </div>
 
-                {/* Title */}
+                {/* Chapter title */}
                 <h2
                   style={{
                     fontFamily: "'Playfair Display',serif",
@@ -393,14 +422,20 @@ export default function LoveBook() {
                   {page.title}
                 </h2>
 
-                {/* Text  fixed height, scrollable */}
+                {/* Scrollable chapter content */}
                 <div
+                  ref={contentRef}
                   className="book-content"
-                  style={{ flex: 1, overflowY: "auto", paddingRight: "0.4rem" }}
+                  style={{
+                    flex: 1,
+                    minHeight: 0,
+                    overflowY: "auto",
+                    paddingRight: "0.4rem",
+                  }}
                 >
-                  {page.content.map((para, i) => (
+                  {page.content.map((paragraph, index) => (
                     <p
-                      key={i}
+                      key={index}
                       style={{
                         fontFamily: "'Cormorant Garamond',serif",
                         fontSize: "clamp(0.88rem,2vw,1rem)",
@@ -408,15 +443,17 @@ export default function LoveBook() {
                         color: "rgba(50,15,5,0.8)",
                         lineHeight: "1.85",
                         marginBottom:
-                          i < page.content.length - 1 ? "0.75rem" : 0,
+                          index < page.content.length - 1
+                            ? "0.75rem"
+                            : 0,
                       }}
                     >
-                      {para}
+                      {paragraph}
                     </p>
                   ))}
                 </div>
 
-                {/* Nav  always at bottom, never moves */}
+                {/* Page navigation */}
                 <div
                   style={{
                     display: "flex",
@@ -429,6 +466,7 @@ export default function LoveBook() {
                   }}
                 >
                   <button
+                    type="button"
                     onClick={() => flipPage("prev")}
                     disabled={currentPage === 0 || isFlipping}
                     style={{
@@ -437,7 +475,10 @@ export default function LoveBook() {
                       color: "#92400e",
                       background: "none",
                       border: "none",
-                      cursor: currentPage === 0 ? "not-allowed" : "pointer",
+                      cursor:
+                        currentPage === 0 || isFlipping
+                          ? "not-allowed"
+                          : "pointer",
                       opacity: currentPage === 0 ? 0.25 : 1,
                       minWidth: "65px",
                       textAlign: "left",
@@ -447,6 +488,7 @@ export default function LoveBook() {
                     ← Prev
                   </button>
 
+                  {/* Page indicators */}
                   <div
                     style={{
                       display: "flex",
@@ -454,24 +496,32 @@ export default function LoveBook() {
                       alignItems: "center",
                     }}
                   >
-                    {PAGES.map((_, i) => (
+                    {PAGES.map((_, index) => (
                       <div
-                        key={i}
+                        key={index}
                         style={{
                           height: "5px",
                           borderRadius: "999px",
                           transition: "all 0.3s ease",
-                          width: i === currentPage ? "16px" : "5px",
-                          background: i === currentPage ? "#7c2d12" : "#d97706",
-                          opacity: i === currentPage ? 1 : 0.35,
+                          width:
+                            index === currentPage ? "16px" : "5px",
+                          background:
+                            index === currentPage
+                              ? "#7c2d12"
+                              : "#d97706",
+                          opacity:
+                            index === currentPage ? 1 : 0.35,
                         }}
                       />
                     ))}
                   </div>
 
                   <button
+                    type="button"
                     onClick={() => flipPage("next")}
-                    disabled={currentPage === PAGES.length - 1 || isFlipping}
+                    disabled={
+                      currentPage === PAGES.length - 1 || isFlipping
+                    }
                     style={{
                       fontFamily: "'Cormorant Garamond',serif",
                       fontSize: "0.9rem",
@@ -479,10 +529,13 @@ export default function LoveBook() {
                       background: "none",
                       border: "none",
                       cursor:
-                        currentPage === PAGES.length - 1
+                        currentPage === PAGES.length - 1 || isFlipping
                           ? "not-allowed"
                           : "pointer",
-                      opacity: currentPage === PAGES.length - 1 ? 0.25 : 1,
+                      opacity:
+                        currentPage === PAGES.length - 1
+                          ? 0.25
+                          : 1,
                       minWidth: "65px",
                       textAlign: "right",
                       padding: 0,
@@ -502,7 +555,8 @@ export default function LoveBook() {
                 right: 0,
                 width: "32px",
                 height: "32px",
-                background: "linear-gradient(225deg,#e0c88a 45%,#fdf6e3 50%)",
+                background:
+                  "linear-gradient(225deg,#e0c88a 45%,#fdf6e3 50%)",
                 clipPath: "polygon(100% 0,100% 100%,0 100%)",
                 opacity: 0.5,
                 pointerEvents: "none",
@@ -510,7 +564,7 @@ export default function LoveBook() {
             />
           </div>
 
-          {/*   SPINE   */}
+          {/* Book spine */}
           <div
             style={{
               position: "absolute",
@@ -519,25 +573,38 @@ export default function LoveBook() {
               bottom: 0,
               width: "20px",
               zIndex: 3,
-              background: "linear-gradient(180deg,#5c1a1a,#7c2d12,#5c1a1a)",
+              background:
+                "linear-gradient(180deg,#5c1a1a,#7c2d12,#5c1a1a)",
               boxShadow:
                 "inset -3px 0 6px rgba(0,0,0,0.35), 2px 0 8px rgba(0,0,0,0.3)",
               borderRadius: "4px 0 0 4px",
             }}
           />
 
-          {/*   COVER (rotates open)   */}
+          {/* Animated cover */}
           {!isOpen && (
             <div
               ref={coverRef}
               onClick={openBook}
+              onKeyDown={(event) => {
+                if (
+                  event.key === "Enter" ||
+                  event.key === " "
+                ) {
+                  event.preventDefault();
+                  openBook();
+                }
+              }}
+              role="button"
+              tabIndex={isOpening ? -1 : 0}
+              aria-label="Open our little story"
               style={{
                 position: "absolute",
                 inset: 0,
                 transformOrigin: "left center",
                 transformStyle: "preserve-3d",
                 zIndex: 2,
-                cursor: "pointer",
+                cursor: isOpening ? "default" : "pointer",
               }}
             >
               <div
@@ -557,7 +624,7 @@ export default function LoveBook() {
                   gap: "0.9rem",
                 }}
               >
-                {/* Texture */}
+                {/* Cover texture */}
                 <div
                   style={{
                     position: "absolute",
@@ -567,7 +634,8 @@ export default function LoveBook() {
                       "repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.05) 3px,rgba(255,255,255,0.05) 4px)",
                   }}
                 />
-                {/* Cover content */}
+
+                {/* Cover lettering */}
                 <div
                   style={{
                     paddingLeft: "24px",
@@ -586,7 +654,9 @@ export default function LoveBook() {
                       background: "rgba(200,151,58,0.5)",
                     }}
                   />
+
                   <span style={{ fontSize: "2rem" }}>📖</span>
+
                   <h3
                     style={{
                       fontFamily: "'Playfair Display',serif",
@@ -597,8 +667,9 @@ export default function LoveBook() {
                       padding: "0 1rem",
                     }}
                   >
-                    Our Journey
+                    Our Little Story
                   </h3>
+
                   <p
                     style={{
                       fontFamily: "'Cormorant Garamond',serif",
@@ -610,8 +681,9 @@ export default function LoveBook() {
                       padding: "0 1.5rem",
                     }}
                   >
-                    A story written just for you
+                    For Roselia, with all my love. ❤️
                   </p>
+
                   <div
                     style={{
                       width: "56px",
@@ -620,7 +692,8 @@ export default function LoveBook() {
                     }}
                   />
                 </div>
-                {/* Ornaments */}
+
+                {/* Cover ornaments */}
                 <span
                   style={{
                     position: "absolute",
@@ -632,6 +705,7 @@ export default function LoveBook() {
                 >
                   ❧
                 </span>
+
                 <span
                   style={{
                     position: "absolute",

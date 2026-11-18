@@ -1,50 +1,169 @@
-import React from "react";
+
+import type { CSSProperties } from "react";
 import type { Memory } from "../data/memories";
 
 interface PhotoCardProps {
   memory: Memory;
 }
 
-export const PhotoCard: React.FC<PhotoCardProps> = ({ memory }) => {
+export function PhotoCard({ memory }: PhotoCardProps) {
+  const rotation = (memory.caption.length % 7) - 3;
+
+  const frameStyle: CSSProperties = {
+    background: "#fff8f0",
+    borderRadius: "4px",
+    padding: "12px 12px 20px",
+    boxShadow:
+      "0 15px 35px rgba(0,0,0,0.4), 0 0 25px rgba(200,151,58,0.08)",
+    transform: `rotate(${rotation}deg)`,
+    transition:
+      "transform 450ms cubic-bezier(0.2,0.8,0.2,1), box-shadow 450ms ease",
+    width: "100%",
+    maxWidth: "340px",
+    margin: "0 auto",
+    position: "relative",
+  };
+
   return (
-    <div className="bg-white/10 backdrop-blur-md rounded-xl overflow-hidden shadow-xl border border-white/20 transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
-      <div className="relative group">
+    <article
+      className="romantic-photo-card"
+      style={frameStyle}
+    >
+      {/* Photo */}
+      <div
+        style={{
+          position: "relative",
+          overflow: "hidden",
+          background: "#e8d8ce",
+          aspectRatio: "4 / 5",
+        }}
+      >
         <img
           src={memory.imageUrl}
           alt={memory.caption}
-          className="w-full h-auto object-cover max-h-96"
           loading="lazy"
+          style={{
+            display: "block",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            transition: "transform 600ms ease",
+          }}
+          className="romantic-photo-image"
         />
-        {/* Overlay gradient for text readability if I want text over image, butI'll put text below */}
+
+        {/* Soft photographic vignette */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            pointerEvents: "none",
+            background:
+              "linear-gradient(to bottom, transparent 65%, rgba(35,10,20,0.12))",
+          }}
+        />
       </div>
 
-      <div className="p-4 flex flex-col gap-3">
-        <p className="text-white/90 text-sm leading-relaxed">
+      {/* Caption */}
+      <div
+        style={{
+          padding: "18px 8px 6px",
+          textAlign: "center",
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "clamp(1.15rem, 2vw, 1.4rem)",
+            fontStyle: "italic",
+            fontWeight: 600,
+            color: "#492d32",
+            lineHeight: 1.4,
+            margin: 0,
+          }}
+        >
           {memory.caption}
         </p>
 
-        <div className="flex flex-wrap gap-2">
-          {memory.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-2 py-1 bg-pink-500/30 text-pink-200 text-xs rounded-full border border-pink-500/30"
-            >
-              #{tag}
-            </span>
-          ))}
+        {/* Decorative divider */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "10px",
+            marginTop: "14px",
+          }}
+        >
+          <span
+            style={{
+              width: "30px",
+              height: "1px",
+              background: "rgba(200,151,58,0.5)",
+            }}
+          />
+
+          <span
+            style={{
+              color: "#bc7e87",
+              fontSize: "14px",
+            }}
+          >
+            ♡
+          </span>
+
+          <span
+            style={{
+              width: "30px",
+              height: "1px",
+              background: "rgba(200,151,58,0.5)",
+            }}
+          />
         </div>
 
-        <div className="flex justify-between items-center mt-2 pt-3 border-t border-white/10 text-xs text-white/50">
-          <span>By {memory.contributor}</span>
-          <span>
-            {new Date(memory.date).toLocaleDateString(undefined, {
-              year: "numeric",
-              month: "short",
+        {/* Date */}
+        {memory.date && (
+          <p
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "0.85rem",
+              letterSpacing: "0.08em",
+              color: "#967b77",
+              marginTop: "8px",
+              marginBottom: 0,
+            }}
+          >
+            {new Date(
+              `${memory.date.slice(0, 10)}T12:00:00`
+            ).toLocaleDateString("en-US", {
+              month: "long",
               day: "numeric",
+              year: "numeric",
             })}
-          </span>
-        </div>
+          </p>
+        )}
       </div>
-    </div>
+
+      <style>{`
+        .romantic-photo-card:hover {
+          transform: rotate(0deg) translateY(-10px) scale(1.025) !important;
+          box-shadow:
+            0 25px 55px rgba(0,0,0,0.5),
+            0 0 35px rgba(200,151,58,0.18) !important;
+          z-index: 2;
+        }
+
+        .romantic-photo-card:hover .romantic-photo-image {
+          transform: scale(1.06);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .romantic-photo-card,
+          .romantic-photo-image {
+            transition: none !important;
+          }
+        }
+      `}</style>
+    </article>
   );
-};
+}
